@@ -1,6 +1,6 @@
 import React from 'react'
 //destructuring
-function Person({name, age, active}) {
+function Person({name = "john doe", age, active}) {
   return (
     <div className={active ? "info-card" : "info-card info-card--inactive"}>
         <h2>person</h2>

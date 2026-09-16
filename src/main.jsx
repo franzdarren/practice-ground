@@ -4,14 +4,20 @@ import App from './App';
 import Car from './components/Car.jsx';
 import SportsCar from './components/SportsCar.jsx';
 import Person from './components/Person.jsx'
+import Add from './components/Add.jsx'
+import Gamble from './components/Gamble.jsx';
 
 createRoot(document.getElementById('root')).render(
   <>
     <App />
+    
     <Car name="Ford" year={2014} active={true} />
     <Car name="Mercedes" year={1979} active={false} />
     <SportsCar name="Subaru" year={2015} active={true} horsePower={325} />
     <Person name="ads" age={22} active={true}/>
+    <Person age={69} active={false}/>
+    {/* <Add/> */}
+    <Gamble/>
   </>
 );
 
