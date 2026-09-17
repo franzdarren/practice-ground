@@ -1,12 +1,12 @@
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
-import Car from './components/Car.jsx';
-import SportsCar from './components/SportsCar.jsx';
-import Person from './components/Person.jsx'
-import Add from './components/Add.jsx'
-import Gamble from './components/Gamble.jsx';
-import Modal from './components/Modal.jsx'
+// import Car from './components/Car.jsx';
+// import SportsCar from './components/SportsCar.jsx';
+// import Person from './components/Person.jsx'
+// import Add from './components/Add.jsx'
+// import Gamble from './components/Gamble.jsx';
+// import Modal from './components/Modal.jsx'
 
 createRoot(document.getElementById('root')).render(
   <App />
