@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import './App.css';
-import Modal from './components/Modal.jsx';
-import Counter from './components/Counter.jsx';
-import NameInput from './components/NameInput.jsx';
+
 import ShoppingCard from './components/ShoppingCard.jsx';
+import Cart from './components/Cart.jsx';
 
 function App() {
   let [cart, setCart] = useState([]);
@@ -35,7 +34,7 @@ function App() {
 
       <section className="cart-container">
         <h2>Cart</h2>
-        
+          <Cart cart={cart}/>
       </section>
     </main>
   )
