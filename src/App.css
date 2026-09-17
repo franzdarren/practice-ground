@@ -1,4 +1,44 @@
-.counter {
+.App {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  gap: 16px;
+  text-align: center;
+}
+
+button {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 6px;
+  color: white;
+  background: #2563eb;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(0 0 0 / 50%);
+}
+
+.modal {
+  width: min(90%, 360px);
+  padding: 24px;
+  border-radius: 8px;
+  background: white;
+  color: #111827;
+}
+
+.modal button {
+  margin-top: 16px;
+}.counter {
   font-size: 16px;
   padding: 5px 10px;
   border-radius: 5px;
