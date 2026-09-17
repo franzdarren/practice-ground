@@ -1,16 +1,36 @@
 import { useState } from 'react';
 import './App.css';
-
 import ShoppingCard from './components/ShoppingCard.jsx';
 import Cart from './components/Cart.jsx';
 
 function App() {
   let [cart, setCart] = useState([]);
-  let total = cart.reduce((acc, item) => acc + item.price, 0);
+  let total = cart.reduce((acc, item) => acc + item.price*item.quantity, 0);
   function addToCart(product){
-    console.log("add to cart: ", product);
     setCart(currentCart => {
-      return [...currentCart, product];
+      const existingProduct = currentCart.find(
+        cartProduct => cartProduct.id === product.id
+      );
+
+      if (existingProduct){
+        return currentCart.map(cartProduct => {
+        if (cartProduct.id === product.id) {
+          return {
+            ...cartProduct, quantity: cartProduct.quantity + 1
+          };
+        }
+
+        return cartProduct;
+      });
+      }
+      return [
+      ...currentCart,
+      {
+        ...product,
+        quantity: 1
+      }
+    ];
+
     })
   }
 
@@ -26,9 +46,9 @@ function App() {
       <section className="shopping-container">
         <h2>Products</h2>
         <div className="product-grid">
-          <ShoppingCard id={1} name="Nike" description="shoes" price={9000} onAddToCart={addToCart}/>
-          <ShoppingCard id={2} name="Adidas" description="shoes" price={22323} onAddToCart={addToCart}/>
-          <ShoppingCard id={3} name="NB" description="shoes" price={3333} onAddToCart={addToCart}/>
+          <ShoppingCard id={1} name="Nike" description="shoes" price={5} onAddToCart={addToCart}/>
+          <ShoppingCard id={2} name="Adidas" description="shoes" price={10} onAddToCart={addToCart}/>
+          <ShoppingCard id={3} name="NB" description="shoes" price={2} onAddToCart={addToCart}/>
         </div>
       </section>
 
