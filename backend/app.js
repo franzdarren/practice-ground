@@ -13,6 +13,7 @@ class Product {
 
 
 var products = [];
+const cart = [];
 
 products.push(new Product(1, "Nike", "shoes", "20"));
 products.push(new Product(2, "Adidas", "shoes", "30"));
@@ -32,18 +33,25 @@ app.get('/api/hello', (req,res)=> {
 })
 
 app.get('/api/products/', (req, res) => {
-
-    // res.json({
-    //     products
-    // });
+    
     res.json(products)
 })
 
 app.post('/api/cart', (req, res) => {
-    console.log("[post] EXPRESS: "+ req.body.productId);
-    res.json({
-        ok: "bruh"
-    })
+
+    const productId = req.body.productId;
+
+    console.log("[post] EXPRESS: "+ productId);
+    const existing = cart.find(item => item.productId === productId);
+    if (existing) {
+        existing.quantity++;
+    } else {
+        cart.push({ productId, quantity: 1 });
+    }
+
+    console.log("CART: "+JSON.stringify(cart))
+    res.json(cart);
+    
     
     
 })

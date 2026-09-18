@@ -78,7 +78,6 @@ function App() {
               quantity: cartItem.quantity - 1
             };
           }
-
           return cartItem;
         })
         .filter(cartItem => cartItem.quantity > 0);
