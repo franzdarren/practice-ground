@@ -1,4 +1,5 @@
-import express from 'express';
+import express from "express";
+import cors from "cors";
 
 class Product {
     constructor(id, name, description, price){
@@ -19,25 +20,42 @@ products.push(new Product(3, "NB", "shoes", "10"));
 
 const app = express();
 
+app.use(cors());
+
 app.get('/', (req,res)=> {
     res.end('hello');
 })
 
+app.get('/api/hello', (req,res)=> {
+    res.end('hello from server');
+})
+
 app.get('/api/products/', (req, res) => {
 
-    res.json({
-        products
-    });
+    // res.json({
+    //     products
+    // });
+    res.json(products)
 })
 
 app.get('/api/products/:id', (req, res) => {
 
     const id = Number(req.params.id);
 
-    res.json({
-        product: products.find(p => p.id === id)
-    });
+    if(products.find(p => p.id === id)){
+        res.statusCode=200;
+        res.json({
+            product: products.find(p => p.id === id)
+        });
+    }
+    else{
+        res.statusCode=404
+        res.json({
+            error: "product not found"
+        });
+    }
+    
 })
 
 
-app.listen(3000, () => console.log("listening.."))
+app.listen(3000, () => console.log("listening.. running.."))

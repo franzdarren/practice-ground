@@ -1,11 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import ShoppingCard from './components/ShoppingCard.jsx';
 import Cart from './components/Cart.jsx';
 
 function App() {
   const [cart, setCart] = useState([]);
+  const [message, setMessage] = useState('loading...');
   let total = cart.reduce((acc, item) => acc + item.price*item.quantity, 0);
+
+  useEffect(() => {
+  fetch('http://localhost:3000/api/hello')
+    .then(res => res.text())
+    .then(text => setMessage(text));
+}, []);
+
+
   function addToCart(product){
     setCart(currentCart => {
       const existingProduct = currentCart.find(
@@ -56,6 +65,7 @@ function App() {
     <main className="app-layout">
       <section className="info-container">
         <h1>Shopping App</h1>
+        <p>message from server: {message}</p>
         <p>Total: PHP {total}</p>
         <p>Things in cart (unique): {cart.length}</p>
         <p>Things in cart (all): {cart.reduce((acc, item) => acc + item.quantity, 0)}</p>
