@@ -2,16 +2,25 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import ShoppingCard from './components/ShoppingCard.jsx';
 import Cart from './components/Cart.jsx';
+import ProductList from './components/ProductList.jsx';
 
 function App() {
   const [cart, setCart] = useState([]);
-  const [message, setMessage] = useState('loading...');
+  const [message, setMessage] = useState('fetching from server...');
+  const [products, setProducts] = useState([]);//will store products fetched from server
+
   let total = cart.reduce((acc, item) => acc + item.price*item.quantity, 0);
 
   useEffect(() => {
-  fetch('http://localhost:3000/api/hello')
-    .then(res => res.text())
-    .then(text => setMessage(text));
+    fetch('http://localhost:3000/api/hello')
+      .then(res => res.text())
+      .then(text => setMessage(text));
+  }, []);
+
+  useEffect(() => {
+  fetch('http://localhost:3000/api/products/')
+    .then(res => res.json())
+    .then(products => setProducts(products));
 }, []);
 
 
@@ -63,6 +72,7 @@ function App() {
   
   return(
     <main className="app-layout">
+      <p>debug log: {JSON.stringify(products)}</p>
       <section className="info-container">
         <h1>Shopping App</h1>
         <p>message from server: {message}</p>
@@ -73,11 +83,7 @@ function App() {
 
       <section className="shopping-container">
         <h2>Products</h2>
-        <div className="product-grid">
-          <ShoppingCard id={1} name="Nike" description="shoes" price={5} onAddToCart={addToCart}/>
-          <ShoppingCard id={2} name="Adidas" description="shoes" price={10} onAddToCart={addToCart}/>
-          <ShoppingCard id={3} name="NB" description="shoes" price={2} onAddToCart={addToCart}/>
-        </div>
+        <ProductList products={products} onAddToCart={addToCart} />
       </section>
 
       <section className="cart-container">
