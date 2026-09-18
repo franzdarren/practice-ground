@@ -21,6 +21,7 @@ products.push(new Product(3, "NB", "shoes", "10"));
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 app.get('/', (req,res)=> {
     res.end('hello');
@@ -36,6 +37,15 @@ app.get('/api/products/', (req, res) => {
     //     products
     // });
     res.json(products)
+})
+
+app.post('/api/cart', (req, res) => {
+    console.log("[post] EXPRESS: "+ req.body.productId);
+    res.json({
+        ok: "bruh"
+    })
+    
+    
 })
 
 app.get('/api/products/:id', (req, res) => {

@@ -4,6 +4,8 @@ import ShoppingCard from './components/ShoppingCard.jsx';
 import Cart from './components/Cart.jsx';
 import ProductList from './components/ProductList.jsx';
 
+const API = 'http://localhost:3000';
+
 function App() {
   const [cart, setCart] = useState([]);
   const [message, setMessage] = useState('fetching from server...');
@@ -12,45 +14,59 @@ function App() {
   let total = cart.reduce((acc, item) => acc + item.price*item.quantity, 0);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/hello')
+    fetch(`${API}/api/hello`)
       .then(res => res.text())
       .then(text => setMessage(text));
   }, []);
 
   useEffect(() => {
-  fetch('http://localhost:3000/api/products/')
+  fetch(`${API}/api/products/`)
     .then(res => res.json())
     .then(products => setProducts(products));
 }, []);
 
 
-  function addToCart(product){
-    setCart(currentCart => {
-      const existingProduct = currentCart.find(
-        cartProduct => cartProduct.id === product.id
-      );
+  // function addToCart(product){
+  //   setCart(currentCart => {
+  //     const existingProduct = currentCart.find(
+  //       cartProduct => cartProduct.id === product.id
+  //     );
 
-      if (existingProduct){
-        return currentCart.map(cartProduct => {
-        if (cartProduct.id === product.id) {
-          return {
-            ...cartProduct, quantity: cartProduct.quantity + 1
-          };
-        }
+  //     if (existingProduct){
+  //       return currentCart.map(cartProduct => {
+  //       if (cartProduct.id === product.id) {
+  //         return {
+  //           ...cartProduct, quantity: cartProduct.quantity + 1
+  //         };
+  //       }
 
-        return cartProduct;
-      });
-      }
-      return [
-      ...currentCart,
-      {
-        ...product,
-        quantity: 1
-      }
-    ];
+  //       return cartProduct;
+  //     });
+  //     }
+  //     return [
+  //     ...currentCart,
+  //     {
+  //       ...product,
+  //       quantity: 1
+  //     }
+  //   ];
 
+  //   })
+  // }
+
+  async function addToCart(product){
+    console.log(product.id)
+    const res = await fetch(`${API}/api/cart`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        productId: product.id
+      })
+      
     })
   }
+
+
 
   function decreaseQuantity(productId){
     setCart(currentCart => {
