@@ -34,13 +34,31 @@ function App() {
     })
   }
 
+  function decreaseQuantity(productId){
+    setCart(currentCart => {
+      return currentCart
+        .map(cartItem => {
+          if (cartItem.id === productId) {
+            return {
+              ...cartItem,
+              quantity: cartItem.quantity - 1
+            };
+          }
+
+          return cartItem;
+        })
+        .filter(cartItem => cartItem.quantity > 0);
+    });
+  }
+
   
   return(
     <main className="app-layout">
       <section className="info-container">
         <h1>Shopping App</h1>
         <p>Total: PHP {total}</p>
-        <p>Things in cart: {cart.length}</p>
+        <p>Things in cart (unique): {cart.length}</p>
+        <p>Things in cart (all): {cart.reduce((acc, item) => acc + item.quantity, 0)}</p>
       </section>
 
       <section className="shopping-container">
@@ -54,7 +72,7 @@ function App() {
 
       <section className="cart-container">
         <h2>Cart</h2>
-          <Cart cart={cart}/>
+          <Cart cart={cart} onDecreaseQuantity={decreaseQuantity}/>
       </section>
     </main>
   )
