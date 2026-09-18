@@ -19,15 +19,25 @@ products.push(new Product(3, "NB", "shoes", "10"));
 
 const app = express();
 
-app.listen(3000, () => console.log("listening.."))
+app.get('/', (req,res)=> {
+    res.end('hello');
+})
+
+app.get('/api/products/', (req, res) => {
+
+    res.json({
+        products
+    });
+})
 
 app.get('/api/products/:id', (req, res) => {
 
     const id = Number(req.params.id);
 
     res.json({
-        hello: "test",
-        id: id,
         product: products.find(p => p.id === id)
     });
 })
+
+
+app.listen(3000, () => console.log("listening.."))
