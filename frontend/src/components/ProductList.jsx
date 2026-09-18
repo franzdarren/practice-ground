@@ -3,6 +3,8 @@ import ShoppingCard from './ShoppingCard'
 
 export default function ProductList({products, onAddToCart}) {
   return (
+    <>
+    <h2>Products</h2>
     <div className="product-grid">
         {
             products.map(
@@ -12,5 +14,6 @@ export default function ProductList({products, onAddToCart}) {
             )
         }
     </div>
+    </>
   )
 }

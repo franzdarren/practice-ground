@@ -10,7 +10,6 @@ function App() {
   const [cart, setCart] = useState([]);
   const [message, setMessage] = useState('fetching from server...');
   const [products, setProducts] = useState([]);//will store products fetched from server
-
   let total = cart.reduce((acc, item) => acc + item.price*item.quantity, 0);
 
   useEffect(() => {
@@ -24,6 +23,74 @@ function App() {
     .then(res => res.json())
     .then(products => setProducts(products));
 }, []);
+
+useEffect(() => {
+  fetch(`${API}/api/cart/`)
+    .then(res => res.json())
+    .then(detailedCart => setCart(detailedCart));
+}, []);
+
+  async function addToCart(product){
+    console.log(product.id)
+    const res = await fetch(`${API}/api/cart`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        productId: product.id
+      })
+    })
+    const data = await res.json();
+    console.log("CURRENT CART: "+JSON.stringify(data))
+    setCart(data)
+  }
+
+
+  // function decreaseQuantity(productId){
+  //   setCart(currentCart => {
+  //     return currentCart
+  //       .map(cartItem => {
+  //         if (cartItem.id === productId) {
+  //           return {
+  //             ...cartItem,
+  //             quantity: cartItem.quantity - 1
+  //           };
+  //         }
+  //         return cartItem;
+  //       })
+  //       .filter(cartItem => cartItem.quantity > 0);
+  //   });
+  // }
+
+  
+  return(
+    <main className="app-layout">
+      <p>debug log: {JSON.stringify(products)}</p>
+      <section className="info-container">
+        <h1>Shopping App</h1>
+        <p>message from server: {message}</p>
+        <p>Total: PHP {total}</p>
+        <p>Things in cart (unique): {cart.length}</p>
+        <p>Things in cart (all): {cart.reduce((acc, item) => acc + item.quantity, 0)}</p>
+      </section>
+
+      <section className="shopping-container">
+        <ProductList products={products} onAddToCart={addToCart} />
+      </section>
+
+      <section className="cart-container">
+          <Cart cart={cart}/>
+      </section>
+    </main>
+  )
+}
+
+export default App;
+
+
+
+
+
+
 
 
   // function addToCart(product){
@@ -53,60 +120,3 @@ function App() {
 
   //   })
   // }
-
-  async function addToCart(product){
-    console.log(product.id)
-    const res = await fetch(`${API}/api/cart`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        productId: product.id
-      })
-      
-    })
-  }
-
-
-
-  function decreaseQuantity(productId){
-    setCart(currentCart => {
-      return currentCart
-        .map(cartItem => {
-          if (cartItem.id === productId) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity - 1
-            };
-          }
-          return cartItem;
-        })
-        .filter(cartItem => cartItem.quantity > 0);
-    });
-  }
-
-  
-  return(
-    <main className="app-layout">
-      <p>debug log: {JSON.stringify(products)}</p>
-      <section className="info-container">
-        <h1>Shopping App</h1>
-        <p>message from server: {message}</p>
-        <p>Total: PHP {total}</p>
-        <p>Things in cart (unique): {cart.length}</p>
-        <p>Things in cart (all): {cart.reduce((acc, item) => acc + item.quantity, 0)}</p>
-      </section>
-
-      <section className="shopping-container">
-        <h2>Products</h2>
-        <ProductList products={products} onAddToCart={addToCart} />
-      </section>
-
-      <section className="cart-container">
-        <h2>Cart</h2>
-          <Cart cart={cart} onDecreaseQuantity={decreaseQuantity}/>
-      </section>
-    </main>
-  )
-}
-
-export default App;

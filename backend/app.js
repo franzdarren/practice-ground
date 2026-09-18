@@ -37,6 +37,16 @@ app.get('/api/products/', (req, res) => {
     res.json(products)
 })
 
+app.get('/api/cart/', (req, res) => {
+    console.log("ONLY ON REACT STARTUP SEE ME==")
+    const detailedCart = cart.map(item => {
+        const product = products.find(p => p.id === item.productId);
+        return { ...product, quantity: item.quantity };
+        });
+        res.json(detailedCart)
+})
+
+//POST EACH ADD TO CART!
 app.post('/api/cart', (req, res) => {
 
     const productId = req.body.productId;
@@ -50,9 +60,14 @@ app.post('/api/cart', (req, res) => {
     }
 
     console.log("CART: "+JSON.stringify(cart))
-    res.json(cart);
-    
-    
+
+    //join before sending to frontend
+    const detailedCart = cart.map(item => {
+        const product = products.find(p => p.id === item.productId);
+        return { ...product, quantity: item.quantity };
+        });
+
+    res.json(detailedCart);
     
 })
 
