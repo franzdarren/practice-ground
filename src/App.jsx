@@ -4,7 +4,7 @@ import ShoppingCard from './components/ShoppingCard.jsx';
 import Cart from './components/Cart.jsx';
 
 function App() {
-  let [cart, setCart] = useState([]);
+  const [cart, setCart] = useState([]);
   let total = cart.reduce((acc, item) => acc + item.price*item.quantity, 0);
   function addToCart(product){
     setCart(currentCart => {
